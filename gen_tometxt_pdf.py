@@ -3,7 +3,6 @@ import time
 from datetime import timedelta
 import pyocr
 import pdf2image
-from posix import listdir
 from typing import Iterable
 from pdfminer.high_level import extract_text
 from pdfminer.pdfdocument import PDFPasswordIncorrect
@@ -58,7 +57,7 @@ def check_pdf(pdf_list :Iterable[str]) -> Iterable[str]:
 def ocr_pdf(pdf :str):
     start = time.time()
     printlog("ocr_pdf", f"Process {pdf}")
-    printlog("ocr_pdf", "Convert pdf to image.")
+    printlog("ocr_pdf", "Convert pdf to image")
     images = pdf2image.convert_from_path(pdf, dpi=400, fmt='png')
     builder = pyocr.libtesseract.LibtesseractPdfBuilder()
     output_file = os.path.join(os.path.split(pdf)[0], "ocr_" + os.path.splitext(os.path.basename(pdf))[0])
@@ -66,17 +65,22 @@ def ocr_pdf(pdf :str):
         builder.add_image(image)
     builder.set_output_file(output_file)
     builder.set_lang("jpn+eng")
-    printlog("ocr_pdf", f"Generate {output_file}.")
+    printlog("ocr_pdf", f"Generate {output_file}.pdf")
     builder.build()
     printlog("ocr_pdf", f"Elapsed time: {int(time.time() - start)}[sec]")
 
 def main():
+    base_dir = os.getcwd()
     start = time.time()
-    pdf_list = [pdf for pdf in find_pdf("/home/npeeech/testdir_4_gen_tometxt_pdf/")]
+    pdf_list = [pdf for pdf in find_pdf(base_dir)]
     printmsg(f"Detected {len(pdf_list)} pdf-files.")
     checked_pdf_list = [pdf for pdf in check_pdf(pdf_list)]
     printmsg(f"Detected {len(checked_pdf_list)} non-searchable-pdf-files.")
-    ocr_pdf("/home/npeeech/testdir_4_gen_tometxt_pdf/物理2.pdf")
+    for pdf in checked_pdf_list:
+        printmsg("- " + pdf)
+    for i, pdf in enumerate(checked_pdf_list):
+        printmsg(f"[{i+1} / {len(checked_pdf_list)}]")
+        ocr_pdf(pdf)
 
     printmsg(f"Elapsed time: {timedelta(seconds=time.time()-start)}")
 
