@@ -73,8 +73,12 @@ def ocr_pdf(pdf :str, dpi :int, prefix :str, language :str):
     images = pdf2image.convert_from_path(pdf, dpi=dpi, fmt='png')
     builder = pyocr.libtesseract.LibtesseractPdfBuilder()
     output_file = os.path.join(os.path.split(pdf)[0], prefix + os.path.splitext(os.path.basename(pdf))[0])
+    # この測定方法で正しいメモリ使用量が出ているのか分からない
+    total_image_size = 0
     for image in images:
         builder.add_image(image)
+        total_image_size += sys.getsizeof(image.tobytes())
+    printlog("ocr_pdf", f"Total image size: {total_image_size / 1024 / 1024}[MB]")
     builder.set_output_file(output_file)
     builder.set_lang(language)
     printlog("ocr_pdf", f"Generate {output_file}.pdf")
