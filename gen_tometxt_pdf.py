@@ -1,5 +1,5 @@
 import os
-from os import path
+import sys
 import time
 from datetime import timedelta
 import argparse
@@ -36,6 +36,9 @@ def find_pdf(pdf_base_dir :str, is_recursive :bool) -> Iterable[str]:
 
 def check_pdf(pdf_list :Iterable[str], prefix :str) -> Iterable[str]:
     for pdf in pdf_list:
+        if os.path.split(pdf)[1].startswith(prefix):
+            printlog("check_pdf", f"Skip {pdf}, because it has prefix:{prefix}")
+            continue
         ocr_file_exists = False
         for cur_file in os.listdir(os.path.split(pdf)[0]):
             if os.path.splitext(cur_file)[1] != ".pdf":
