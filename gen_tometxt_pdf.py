@@ -66,13 +66,17 @@ def check_pdf(pdf_list :Iterable[str], prefix :str) -> Iterable[str]:
         printlog("check_pdf", f"It will be processed {pdf}")
         yield pdf
 
-def ocr_pdf(pdf :str, dpi :int, prefix :str, language :str):
+def ocr_pdf(pdf :str, dpi :int, prefix :str, language :str, should_overwrite :bool):
     start = time.time()
     printlog("ocr_pdf", f"Process {pdf}")
     printlog("ocr_pdf", "Convert pdf to image")
     images = pdf2image.convert_from_path(pdf, dpi=dpi, fmt='png')
     builder = pyocr.libtesseract.LibtesseractPdfBuilder()
-    output_file = os.path.join(os.path.split(pdf)[0], prefix + os.path.splitext(os.path.basename(pdf))[0])
+    output_file = str
+    if should_overwrite:
+        output_file = os.path.join(os.path.split(pdf)[0], os.path.splitext(os.path.basename(pdf))[0])
+    else:
+        output_file = os.path.join(os.path.split(pdf)[0], prefix + os.path.splitext(os.path.basename(pdf))[0])
     # この測定方法で正しいメモリ使用量が出ているのか分からない
     total_image_size = 0
     for image in images:
@@ -88,10 +92,11 @@ def ocr_pdf(pdf :str, dpi :int, prefix :str, language :str):
 def main():
     base_dir = os.getcwd()
     parser = argparse.ArgumentParser(description='This program recursively searches PDF files from the current directory and generates searchable-PDF from non-searchable-PDF. The generated PDF has the prefix "ocr_". "example.pdf" is ignored when "ocr_example.pdf" and "example.pdf" exist.')
-    parser.add_argument("--dpi", default=200, type=int, help="Output PDF dpi, default 200[dpi]")
+    parser.add_argument("-d", "--dpi", default=200, type=int, help="Output PDF dpi, default 200[dpi]")
     parser.add_argument("-r", "--recursive", action="store_true", help="Recursively search for PDF files")
     parser.add_argument("-p", "--prefix", default="ocr_", help='Prefix of generated PDF files, default "ocr_"')
     parser.add_argument("-l", "--language", default="eng", help='Language options passed to tesseract. For example, "jpn", "jpn+eng".')
+    parser.add_argument("--overwrite-save", action="store_true", help="Overwrite the original PDF file")
     args = parser.parse_args()
 
     start = time.time()
@@ -103,7 +108,7 @@ def main():
         printmsg("- " + pdf)
     for i, pdf in enumerate(checked_pdf_list):
         printmsg(f"[{i+1} / {len(checked_pdf_list)}]")
-        ocr_pdf(pdf, dpi=args.dpi, prefix=args.prefix, language=args.language)
+        ocr_pdf(pdf, dpi=args.dpi, prefix=args.prefix, language=args.language, should_overwrite=args.overwrite_save)
 
     printmsg(f"Elapsed time: {timedelta(seconds=time.time()-start)}")
 
