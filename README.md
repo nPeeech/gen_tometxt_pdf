@@ -17,6 +17,7 @@ Generate searchable-PDF from non-searchable-PDF.
 
 ## Usage
 ```
+$ gen-tometxt-pdf --help
 usage: gen_tometxt_pdf.py [-h] [-d DPI] [-r] [-p PREFIX] [-l LANGUAGE] [--overwrite-save]
 
 This program recursively searches PDF files from the current directory and generates searchable-PDF from non-searchable-PDF. The generated PDF has the prefix "ocr_". "example.pdf" is ignored when "ocr_example.pdf" and "example.pdf" exist.
@@ -35,7 +36,9 @@ optional arguments:
 ## Install
 ```
 $ sudo apt install tesseract-ocr
-$ git clone url
+$ git clone https://github.com/nPeeech/gen_tometxt_pdf
 $ cd gen_tometxt_pdf
-$ pip install -r requipments.txt
+$ pip install -r ./requipments.txt
+$ sudo cp ./gen_tometxt_pdf.py /usr/local/bin/gen-tometxt-pdf
+$ sudo chmod a+x /usr/local/bin/gen-tometxt-pdf
 ```
