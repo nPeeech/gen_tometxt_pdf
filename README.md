@@ -17,20 +17,19 @@ Generate searchable-PDF from non-searchable-PDF.
 
 ## Usage
 ```
-usage: gen_tometxt_pdf.py [-h] [--dpi DPI] [-r] [-p PREFIX] [-l LANGUAGE]
+usage: gen_tometxt_pdf.py [-h] [-d DPI] [-r] [-p PREFIX] [-l LANGUAGE] [--overwrite-save]
 
-This program recursively searches PDF files from the current directory and generates searchable-PDF from
-non-searchable-PDF. The generated PDF has the prefix "ocr_". "example.pdf" is ignored when
-"ocr_example.pdf" and "example.pdf" exist.
+This program recursively searches PDF files from the current directory and generates searchable-PDF from non-searchable-PDF. The generated PDF has the prefix "ocr_". "example.pdf" is ignored when "ocr_example.pdf" and "example.pdf" exist.
 
 optional arguments:
   -h, --help            show this help message and exit
-  --dpi DPI             Output PDF dpi, default 200[dpi]
+  -d DPI, --dpi DPI     Output PDF dpi, default 200[dpi]
   -r, --recursive       Recursively search for PDF files
   -p PREFIX, --prefix PREFIX
                         Prefix of generated PDF files, default "ocr_"
   -l LANGUAGE, --language LANGUAGE
                         Language options passed to tesseract. For example, "jpn", "jpn+eng".
+  --overwrite-save      Overwrite the original PDF file
 ```
 
 ## Install
