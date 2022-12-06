@@ -1,21 +1,23 @@
 gen_tometxt_pdf
 ===
+Python script is broken.  
+You can use a shell script that can only convert a single file.
 ## Overview
 Generate searchable-PDF from non-searchable-PDF.
 
 ## Description
-- Recursively searche PDF files from the current directory.
-- Generate searchable-PDF from non-searchable-PDF.
-- The generated PDF has the prefix "ocr_".
-- "example.pdf" is ignored when "ocr_example.pdf" and "example.pdf" exist.
+- ~Recursively searche PDF files from the current directory.~
+- ~Generate searchable-PDF from non-searchable-PDF.~
+- ~The generated PDF has the prefix "_ocr".~
+- ~"example.pdf" is ignored when "ocr_example.pdf" and "example.pdf" exist.~
 
-## Requirement
-- tesseract-ocr
-- pdf2image
-- pdfminer.six
-- pyocr
+## ~Requirement~
+- ~tesseract-ocr~
+- ~pdf2image~
+- ~pdfminer.six~
+- ~pyocr~
 
-## Usage
+## ~Usage~
 ```
 $ gen-tometxt-pdf --help
 usage: gen_tometxt_pdf.py [-h] [-d DPI] [-r] [-p PREFIX] [-l LANGUAGE] [--overwrite-save]
@@ -35,10 +37,10 @@ optional arguments:
 
 ## Install
 ```
-$ sudo apt install tesseract-ocr
+$ sudo apt install pdftk-java poppler-utils tesseract-ocr tesseract-ocr-jpn
 $ git clone https://github.com/nPeeech/gen_tometxt_pdf
 $ cd gen_tometxt_pdf
-$ pip install -r ./requipments.txt
-$ sudo cp ./gen_tometxt_pdf.py /usr/local/bin/gen-tometxt-pdf
-$ sudo chmod a+x /usr/local/bin/gen-tometxt-pdf
+$ ~~~pip install -r ./requipments.txt~~~
+$ sudo cp ./gen_tometxt_pdf_sh.sh /usr/local/bin/gen_tometxt_pdf_sh
+$ sudo chmod a+x /usr/local/bin/gen_tometxt_pdf_sh
 ```
