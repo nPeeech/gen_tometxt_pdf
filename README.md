@@ -40,7 +40,7 @@ optional arguments:
 $ sudo apt install pdftk-java poppler-utils tesseract-ocr tesseract-ocr-jpn
 $ git clone https://github.com/nPeeech/gen_tometxt_pdf
 $ cd gen_tometxt_pdf
-$ ~~~pip install -r ./requipments.txt~~~
+$ pip install -r ./requipments.txt
 $ sudo cp ./gen_tometxt_pdf_sh.sh /usr/local/bin/gen_tometxt_pdf_sh
 $ sudo chmod a+x /usr/local/bin/gen_tometxt_pdf_sh
 ```
